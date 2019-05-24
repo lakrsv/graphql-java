@@ -4,9 +4,11 @@ package graphql;
 import graphql.schema.GraphQLDirective;
 
 import static graphql.Scalars.GraphQLBoolean;
+import static graphql.Scalars.GraphQLString;
 import static graphql.introspection.Introspection.DirectiveLocation.FIELD;
 import static graphql.introspection.Introspection.DirectiveLocation.FRAGMENT_SPREAD;
 import static graphql.introspection.Introspection.DirectiveLocation.INLINE_FRAGMENT;
+import static graphql.introspection.Introspection.DirectiveLocation.OBJECT;
 import static graphql.schema.GraphQLArgument.newArgument;
 import static graphql.schema.GraphQLNonNull.nonNull;
 
@@ -44,5 +46,15 @@ public class Directives {
             .description("This directive allows results to be deferred during execution")
             .validLocations(FIELD)
             .build();
+
+    public static final GraphQLDirective SearchDirective = GraphQLDirective.newDirective()
+        .name("search")
+        .description("Directs the executor to only include this field or object if it matches the search conditions")
+        .argument(newArgument()
+            .name("query")
+            .type(nonNull(GraphQLString))
+            .description("The text that must be matched for a fragment to be included"))
+        .validLocations(OBJECT, FIELD)
+        .build();
 
 }

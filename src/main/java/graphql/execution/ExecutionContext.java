@@ -8,6 +8,7 @@ import graphql.cachecontrol.CacheControl;
 import graphql.execution.defer.DeferSupport;
 import graphql.execution.instrumentation.Instrumentation;
 import graphql.execution.instrumentation.InstrumentationState;
+import graphql.execution.search.SearchSupport;
 import graphql.language.Document;
 import graphql.language.FragmentDefinition;
 import graphql.language.OperationDefinition;
@@ -44,6 +45,7 @@ public class ExecutionContext {
     private final DataLoaderRegistry dataLoaderRegistry;
     private final CacheControl cacheControl;
     private final DeferSupport deferSupport = new DeferSupport();
+    private final SearchSupport searchSupport = new SearchSupport();
 
     @Internal
     ExecutionContext(Instrumentation instrumentation, ExecutionId executionId, GraphQLSchema graphQLSchema, InstrumentationState instrumentationState, ExecutionStrategy queryStrategy, ExecutionStrategy mutationStrategy, ExecutionStrategy subscriptionStrategy, Map<String, FragmentDefinition> fragmentsByName, Document document, OperationDefinition operationDefinition, Map<String, Object> variables, Object context, Object root, DataLoaderRegistry dataLoaderRegistry, CacheControl cacheControl, List<GraphQLError> startingErrors) {
@@ -174,6 +176,10 @@ public class ExecutionContext {
 
     public DeferSupport getDeferSupport() {
         return deferSupport;
+    }
+
+    public SearchSupport getSearchSupport(){
+        return searchSupport;
     }
 
     /**

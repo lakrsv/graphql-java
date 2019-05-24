@@ -13,6 +13,7 @@ import graphql.execution.instrumentation.InstrumentationContext;
 import graphql.execution.instrumentation.InstrumentationState;
 import graphql.execution.instrumentation.parameters.InstrumentationExecuteOperationParameters;
 import graphql.execution.instrumentation.parameters.InstrumentationExecutionParameters;
+import graphql.execution.search.SearchSupport;
 import graphql.language.Document;
 import graphql.language.FragmentDefinition;
 import graphql.language.NodeUtil;
@@ -174,7 +175,16 @@ public class Execution {
 
         result = result.whenComplete(executeOperationCtx::onCompleted);
 
+        // TODO - Do we put search here? How do we get it accepted by GraphQL maintainers?
         return deferSupport(executionContext, result);
+    }
+
+    // Not like this i think
+    private CompletableFuture<ExecutionResult> searchSupport(ExecutionContext executionContext, CompletableFuture<ExecutionResult> result){
+        return result.thenApply(er -> {
+            SearchSupport searchSupport = executionContext.getSearchSupport();
+            //if(searchSupport.) // This is probably not cool
+        })
     }
 
     /*
